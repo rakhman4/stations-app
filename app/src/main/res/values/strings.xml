@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">StationsApp</string>
+    <string name="stations_title">Stations</string>
+    <string name="station_detail_title">Station details</string>
+    <string name="sample_station">Example station</string>
+    <string name="station_id">Station ID: %1$s</string>
+    <string name="back_to_stations">Back to stations</string>
+</resources>
