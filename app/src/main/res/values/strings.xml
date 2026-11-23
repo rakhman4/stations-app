@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">StationsApp</string>
     <string name="stations_title">Stations</string>
+    <string name="stations_load_failed">Couldn’t load stations.</string>
+    <string name="stations_refresh_failed">Couldn’t refresh. Showing saved stations.</string>
+    <string name="stations_retry">Retry</string>
+    <string name="stations_empty">No stations available.</string>
+    <plurals name="station_device_count">
+        <item quantity="one">%d device</item>
+        <item quantity="other">%d devices</item>
+    </plurals>
     <string name="station_detail_title">Station details</string>
-    <string name="sample_station">Example station</string>
     <string name="station_id">Station ID: %1$s</string>
     <string name="back_to_stations">Back to stations</string>
 </resources>
