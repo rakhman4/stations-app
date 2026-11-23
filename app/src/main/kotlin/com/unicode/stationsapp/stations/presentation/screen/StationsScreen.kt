@@ -1,31 +1,28 @@
 package com.unicode.stationsapp.stations.presentation.screen
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.unicode.stationsapp.R
+import com.unicode.stationsapp.core.presentation.component.LoadingIndicator
+import com.unicode.stationsapp.core.presentation.component.RetryMessage
 import com.unicode.stationsapp.core.presentation.navigation.Routes
-import com.unicode.stationsapp.stations.domain.model.Station
+import com.unicode.stationsapp.core.presentation.preview.PreviewContainer
+import com.unicode.stationsapp.stations.presentation.component.StationItem
+import com.unicode.stationsapp.stations.presentation.preview.mockStations
 import com.unicode.stationsapp.stations.presentation.viewmodel.StationsLoadStatus
 import com.unicode.stationsapp.stations.presentation.viewmodel.StationsUiState
 import com.unicode.stationsapp.stations.presentation.viewmodel.StationsViewModel
@@ -53,7 +50,7 @@ fun StationsScreen(
 
 @Composable
 private fun StationsScreen(
-    screenPadding: PaddingValues,
+    screenPadding: PaddingValues = PaddingValues(),
     uiState: StationsUiState,
     onRetry: () -> Unit,
     onStationClick: (String) -> Unit
@@ -75,21 +72,17 @@ private fun StationsScreen(
 
         when (uiState.status) {
             StationsLoadStatus.Loading -> item {
-                CircularProgressIndicator()
+                LoadingIndicator()
             }
 
             StationsLoadStatus.Failed -> item {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(
-                        stringResource(
-                            if (uiState.stations.isEmpty()) R.string.stations_load_failed
-                            else R.string.stations_refresh_failed
-                        )
-                    )
-                    Button(onClick = onRetry) {
-                        Text(stringResource(R.string.stations_retry))
-                    }
-                }
+                RetryMessage(
+                    message = stringResource(
+                        if (uiState.stations.isEmpty()) R.string.stations_load_failed
+                        else R.string.stations_refresh_failed
+                    ),
+                    onRetry = onRetry
+                )
             }
 
             StationsLoadStatus.Loaded -> if (uiState.stations.isEmpty()) {
@@ -103,31 +96,14 @@ private fun StationsScreen(
     }
 }
 
+@Preview
 @Composable
-private fun StationItem(station: Station, onClick: () -> Unit) {
-    OutlinedCard(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.outlinedCardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        ),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Text(station.name, style = MaterialTheme.typography.titleMedium)
-            Text(station.address, style = MaterialTheme.typography.bodyMedium)
-            Text(
-                text = pluralStringResource(
-                    R.plurals.station_device_count,
-                    station.deviceCount,
-                    station.deviceCount
-                ),
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
+private fun StationsScreenPreview() {
+    PreviewContainer {
+        StationsScreen(
+            uiState = StationsUiState(stations = mockStations, status = StationsLoadStatus.Failed),
+            onRetry = {},
+            onStationClick = {}
+        )
     }
 }
