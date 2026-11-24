@@ -36,7 +36,7 @@ android {
 }
 
 ksp {
-    arg("room.schemaLocation", file("schemas").path)
+    arg("room.schemaLocation", layout.buildDirectory.dir("room-schemas").get().asFile.path)
 }
 
 dependencies {

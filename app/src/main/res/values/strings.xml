@@ -10,6 +10,11 @@
         <item quantity="other">%d devices</item>
     </plurals>
     <string name="station_detail_title">Station details</string>
-    <string name="station_id">Station ID: %1$s</string>
+    <string name="station_detail_load_failed">Couldn’t load station details.</string>
+    <string name="station_devices_title">Devices</string>
+    <string name="station_devices_load_failed">Couldn’t load devices.</string>
+    <string name="station_devices_refresh_failed">Couldn’t refresh. Showing saved devices.</string>
+    <string name="station_devices_empty">No devices available.</string>
+    <string name="station_device_type_and_status">%1$s · %2$s</string>
     <string name="back_to_stations">Back to stations</string>
 </resources>

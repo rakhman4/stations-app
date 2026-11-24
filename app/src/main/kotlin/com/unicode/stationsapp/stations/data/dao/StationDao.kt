@@ -5,12 +5,17 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import com.unicode.stationsapp.stations.data.entity.StationEntity
+import com.unicode.stationsapp.stations.data.entity.StationWithDevices
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class StationDao {
     @Query("SELECT * FROM stations ORDER BY name COLLATE NOCASE")
     abstract fun observeStations(): Flow<List<StationEntity>>
+
+    @Transaction
+    @Query("SELECT * FROM stations WHERE id = :stationId")
+    abstract suspend fun getStationWithDevices(stationId: String): StationWithDevices?
 
     @Query("SELECT id FROM stations")
     protected abstract suspend fun getStationIds(): List<String>
@@ -22,7 +27,7 @@ abstract class StationDao {
     protected abstract suspend fun deleteStations(ids: List<String>)
 
     @Transaction
-    open suspend fun replaceSnapshot(stations: List<StationEntity>) {
+    open suspend fun replaceStations(stations: List<StationEntity>) {
         val snapshotIds = stations.mapTo(mutableSetOf()) { it.id }
         val removedIds = getStationIds().filterNot { it in snapshotIds }
         upsertStations(stations)
