@@ -36,3 +36,7 @@ When a new feature needs a library, I would prefer one that supports Kotlin Mult
 ## 7. Test prototypes before building new features
 
 I would run a couple of short user testing rounds with a simple prototype before writing code. That helps find confusing steps early, when changing the design is quick and cheap.
+
+## 8. Make stations easier to find
+
+I would add a search bar to find stations by name or address, and offer sorting options based on what users need, such as sorting by device count.
